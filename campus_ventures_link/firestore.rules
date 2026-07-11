@@ -1,0 +1,91 @@
+rules_version = '2';
+
+// Campus Ventures Link — Firestore security rules.
+//
+// NOT deployed automatically. This file documents/enforces server-side
+// what the Flutter app currently only enforces client-side (role checks in
+// the UI). Paste this into Firebase Console → Firestore Database → Rules,
+// or wire it up via `firebase deploy --only firestore:rules` once this
+// project is registered with the Firebase CLI (firebase.json does not yet
+// reference a rules file).
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isSelf(uid) {
+      return isSignedIn() && request.auth.uid == uid;
+    }
+
+    function isAdmin() {
+      return isSignedIn() &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    function unchanged(field) {
+      return request.resource.data[field] == resource.data[field];
+    }
+
+    // Users can read/update their own profile. `role` can only be changed
+    // by an admin — a student can't self-promote by editing their own doc,
+    // and a compromised founder account can't grant itself admin access.
+    match /users/{uid} {
+      allow read: if isSelf(uid) || isAdmin();
+      allow list: if isAdmin();
+      allow create: if isSelf(uid);
+      allow update: if (isSelf(uid) && unchanged('role')) || isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    // Anyone signed in can browse startups. Only the owner can edit their
+    // own startup, and only an admin can flip `verificationStatus` —
+    // mirrors the app's `updateVerificationStatus` admin-only flow.
+    match /startups/{startupId} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn() &&
+        request.resource.data.ownerId == request.auth.uid &&
+        request.resource.data.verificationStatus == 'pending';
+      allow update: if isSignedIn() && (
+        (resource.data.ownerId == request.auth.uid && unchanged('verificationStatus')) ||
+        isAdmin()
+      );
+      allow delete: if isAdmin() || (isSignedIn() && resource.data.ownerId == request.auth.uid);
+    }
+
+    // Opportunities are publicly readable to signed-in users; only the
+    // owning startup's founder (or an admin) can create/edit/delete.
+    match /opportunities/{opportunityId} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn() &&
+        get(/databases/$(database)/documents/startups/$(request.resource.data.startupId)).data.ownerId == request.auth.uid;
+      allow update, delete: if isAdmin() || (
+        isSignedIn() &&
+        get(/databases/$(database)/documents/startups/$(resource.data.startupId)).data.ownerId == request.auth.uid
+      );
+    }
+
+    // Applications are visible to the applying student, the founder whose
+    // startup received them, and admins. Students create/withdraw their
+    // own; founders (or admins) update status.
+    match /applications/{applicationId} {
+      allow read: if isAdmin() || (isSignedIn() && (
+        resource.data.studentId == request.auth.uid ||
+        get(/databases/$(database)/documents/startups/$(resource.data.startupId)).data.ownerId == request.auth.uid
+      ));
+      allow create: if isSignedIn() && request.resource.data.studentId == request.auth.uid;
+      allow update: if isAdmin() || (
+        isSignedIn() &&
+        get(/databases/$(database)/documents/startups/$(resource.data.startupId)).data.ownerId == request.auth.uid
+      );
+      allow delete: if isAdmin() || (isSignedIn() && resource.data.studentId == request.auth.uid);
+    }
+
+    // Bookmarks are entirely private to the student who created them.
+    match /bookmarks/{bookmarkId} {
+      allow read, delete: if isAdmin() || (isSignedIn() && resource.data.studentId == request.auth.uid);
+      allow create: if isSignedIn() && request.resource.data.studentId == request.auth.uid;
+    }
+  }
+}
