@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "449694857994",
+    "project_id": "campus-ventures-link",
+    "storage_bucket": "campus-ventures-link.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:449694857994:android:e71c83189b385fcfdb58f3",
+        "android_client_info": {
+          "package_name": "com.example.campus_ventures_link"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhzPBw8XR8pKTpJS8JvMhOqq2K4KvMUrU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
