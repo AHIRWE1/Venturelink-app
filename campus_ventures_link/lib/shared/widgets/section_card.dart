@@ -35,14 +35,18 @@ class SectionCard extends StatelessWidget {
           children: [
             if (title != null) ...[
               Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   if (icon != null) ...[
                     Icon(icon, size: 18, color: AppColors.primary),
                     const SizedBox(width: 8),
                   ],
-                  Text(
-                    title!,
-                    style: AppTextStyles.heading2.copyWith(fontSize: 16),
+                  Expanded(
+                    child: Text(
+                      title!,
+                      style: AppTextStyles.heading2.copyWith(fontSize: 16),
+                      softWrap: true,
+                    ),
                   ),
                 ],
               ),

@@ -85,12 +85,21 @@ class _CreateEditOpportunityScreenState
     if (picked != null) setState(() => _deadline = picked);
   }
 
+  void _closeScreen() {
+    if (!mounted) return;
+    if (Navigator.of(context).canPop()) {
+      Navigator.of(context).pop();
+    } else {
+      context.go(AppRoutes.founderOpportunities);
+    }
+  }
+
   Future<void> _submit(String startupId) async {
     if (!_formKey.currentState!.validate()) return;
     if (_selectedCategory == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please select a category')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Please select a category')));
       return;
     }
     if (_selectedEmploymentType == null) {
@@ -124,7 +133,7 @@ class _CreateEditOpportunityScreenState
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(const SnackBar(content: Text('Opportunity posted')));
-      Navigator.of(context).pop();
+      _closeScreen();
     } else {
       final err =
           ref.read(opportunityControllerProvider).errorMessage ??
@@ -197,7 +206,7 @@ class _CreateEditOpportunityScreenState
             startupName: startup.startupName,
             onPickDeadline: _pickDeadline,
             onSubmit: () => _submit(startup.id),
-            onCancel: () => Navigator.of(context).maybePop(),
+            onCancel: _closeScreen,
           );
         },
       ),
@@ -243,7 +252,11 @@ class _BlockedState extends StatelessWidget {
                 statusBadge!,
                 const SizedBox(height: 10),
               ],
-              Text(message, textAlign: TextAlign.center, style: AppTextStyles.body),
+              Text(
+                message,
+                textAlign: TextAlign.center,
+                style: AppTextStyles.body,
+              ),
               const SizedBox(height: 20),
               AppPrimaryButton(label: actionLabel, onPressed: onAction),
             ],
@@ -436,7 +449,8 @@ class _OpportunityForm extends StatelessWidget {
                                     (type) => AppChip(
                                       label: type,
                                       selected: selectedEmploymentType == type,
-                                      onTap: () => onEmploymentTypeChanged(type),
+                                      onTap: () =>
+                                          onEmploymentTypeChanged(type),
                                     ),
                                   )
                                   .toList(),
