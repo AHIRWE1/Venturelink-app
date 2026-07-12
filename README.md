@@ -2,13 +2,11 @@
 
 Campus Ventures Link is a Flutter and Firebase application built for the African Leadership University (ALU) ecosystem. The platform connects ALU students with verified startup opportunities by enabling startups to post internships and volunteer positions while allowing students to discover, apply for, and track opportunities in one centralized system.
 
----
 
 ## Demo Video
 
 Demo Link: https://youtu.be/ii5KpxJh3bU 
 
----
 
 # Problem Statement
 
@@ -23,7 +21,6 @@ Campus Ventures Link addresses this problem by providing:
 - Opportunity management tools for founders.
 - Administrative oversight for the university.
 
----
 
 # Features
 
@@ -42,7 +39,6 @@ Campus Ventures Link addresses this problem by providing:
   - Interests
   - Social links
 
----
 
 ## Student Features
 
@@ -57,7 +53,6 @@ Campus Ventures Link addresses this problem by providing:
 - Edit profile
 - Dark mode support
 
----
 
 ## Founder Features
 
@@ -71,7 +66,6 @@ Campus Ventures Link addresses this problem by providing:
 - Update application statuses
 - Dashboard with live statistics
 
----
 
 ## Admin Features
 
@@ -82,7 +76,6 @@ Campus Ventures Link addresses this problem by providing:
 - View all users
 - Monitor startups and opportunities
 
----
 
 # Startup Verification Workflow
 
@@ -102,7 +95,6 @@ Approved founders can create opportunities
 
 This workflow ensures that only legitimate and verified startups can post opportunities on the platform.
 
----
 
 # Application Workflow
 
@@ -118,7 +110,6 @@ Interview
 Accepted / Rejected
 ```
 
----
 
 # Technology Stack
 
@@ -132,7 +123,6 @@ Accepted / Rejected
 | Go Router | Navigation |
 | Shared Preferences | Theme persistence |
 
----
 
 # Architecture
 
@@ -159,7 +149,6 @@ Cloud Firestore
 - Testability
 - Maintainability
 
----
 
 # Project Structure
 
@@ -187,7 +176,6 @@ lib/
     └── widgets/
 ```
 
----
 
 # Database Schema
 
@@ -252,7 +240,6 @@ opportunityId
 createdAt
 ```
 
----
 
 # State Management
 
@@ -274,7 +261,6 @@ Benefits:
 - Reduced boilerplate
 - Better scalability
 
----
 
 # Design System
 
@@ -295,7 +281,6 @@ Reusable widgets include:
 - SectionCard
 - InfoCard
 
----
 
 # Theme Support
 
@@ -307,7 +292,6 @@ The application supports:
 
 Theme preferences are persisted using SharedPreferences.
 
----
 
 # Security
 
@@ -320,7 +304,6 @@ The application includes:
 - Permission-based UI rendering
 - Admin-only operations
 
----
 
 # Testing
 
@@ -342,7 +325,6 @@ The project currently includes:
 - Responsive layout testing
 - Splash screen testing
 
----
 
 # Installation
 
@@ -373,7 +355,6 @@ flutterfire configure
 flutter run
 ```
 
----
 
 # Firestore Rules
 
@@ -391,7 +372,6 @@ Firebase Console
 → Rules
 ```
 
----
 
 # Known Limitations
 
@@ -403,7 +383,6 @@ Firebase Console
 - Limited automated testing
 - Admin cannot disable user accounts without Firebase Admin SDK
 
----
 
 # Future Improvements
 
@@ -417,7 +396,6 @@ Firebase Console
 - Analytics dashboard
 - Advanced recommendation engine
 
----
 
 # Challenges and Lessons Learned
 
@@ -436,7 +414,6 @@ Firebase Console
 - The need for extensive manual testing with Firebase.
 - The value of reusable components and design systems.
 
----
 
 # Author
 
@@ -449,7 +426,6 @@ African Leadership University
 Course:
 Mobile Application Development – Formative Assessment 2
 
----
 
 # Acknowledgements
 
@@ -459,7 +435,6 @@ Mobile Application Development – Formative Assessment 2
 - Go Router Package Maintainers
 - African Leadership University
 
----
 
 # License
 
